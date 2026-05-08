@@ -87,7 +87,7 @@ function renderStart() {
       <div class="hero-copy">
         <p class="eyebrow">우리나라 경제와 세계화 - 물가 변동과 실업</p>
         <h2>한 달 예산을 지키며 인플레이션을 버텨라</h2>
-        <p>모둠별 역할을 맡고 5번의 경제 상황을 통과합니다. 20분 수업 운영에 맞춰 짧게 토의하고, 같은 물가 상승도 누구에게는 부담, 누구에게는 기회가 될 수 있음을 확인합니다.</p>
+        <p>모둠별로 경제 주체가 되어 5번의 물가 상승 상황을 해결합니다. 선택할 때마다 예산, 안정도, 위험도가 달라지고, 마지막에는 역할별 차이를 비교합니다.</p>
         <div class="actions">
           <button type="button" class="primary-button" id="startGameBtn">수업 시작</button>
           <button type="button" class="secondary-button" id="goSetupBtn">모둠 바로 설정</button>
@@ -113,12 +113,17 @@ function renderStart() {
 function renderIntro() {
   app.innerHTML = `
     <section class="screen">
-      <h2>수업 설명</h2>
-      <p class="lead">교사는 모둠 토의 결과를 화면에 입력합니다. 각 모둠은 자신의 역할에 맞게 예산, 안정도, 위험도를 관리하며 한 달을 버팁니다.</p>
+      <h2>오늘 활동 흐름</h2>
+      <p class="lead">각 모둠은 하나의 경제 주체입니다. 물가가 오를 때 어떤 선택을 할지 정하고, 선택 결과가 우리 생활에 어떤 영향을 주는지 한 문장으로 설명합니다.</p>
+      <div class="flow-grid">
+        <article class="flow-card"><span>1</span><strong>역할 확인</strong><p>우리 모둠이 누구인지, 무엇이 유리하고 불리한지 봅니다.</p></article>
+        <article class="flow-card"><span>2</span><strong>선택과 입력</strong><p>라운드마다 1분 안팎으로 토의하고 교사가 선택을 입력합니다.</p></article>
+        <article class="flow-card"><span>3</span><strong>결과 발표</strong><p>점수보다 “왜 이런 결과가 나왔는지”를 짧게 말합니다.</p></article>
+      </div>
       <div class="info-grid">
-        <article class="info-panel"><h3>물가와 물가 지수</h3><p>물가는 시장에서 거래되는 재화와 서비스의 평균적인 가격 수준입니다. 물가 지수는 그 변화를 숫자로 나타내는 도구입니다.</p></article>
-        <article class="info-panel"><h3>인플레이션</h3><p>인플레이션이 발생하면 같은 돈으로 살 수 있는 상품의 양이 줄어듭니다. 그래서 실질 구매력이 낮아질 수 있습니다.</p></article>
-        <article class="info-panel"><h3>분배 효과</h3><p>물가 상승은 모든 사람에게 똑같이 작용하지 않습니다. 소득, 자산, 빚의 상태에 따라 유리함과 불리함이 달라집니다.</p></article>
+        <article class="info-panel"><h3>물가</h3><p>여러 상품과 서비스의 평균적인 가격 수준입니다. 장바구니 물건값이 함께 오르는 상황을 떠올리면 쉽습니다.</p></article>
+        <article class="info-panel"><h3>인플레이션</h3><p>같은 돈으로 살 수 있는 양이 줄어드는 현상입니다. 예산은 그대로인데 생활비가 더 많이 듭니다.</p></article>
+        <article class="info-panel"><h3>분배 효과</h3><p>물가 상승의 영향은 사람마다 다릅니다. 소득, 자산, 빚이 어떻게 되어 있는지가 중요합니다.</p></article>
       </div>
       <div class="actions">
         <button type="button" class="primary-button" id="introNextBtn">모둠 설정으로</button>
@@ -138,8 +143,8 @@ function renderSetup() {
       <div class="setup-layout">
         <aside class="setup-panel">
           <article class="pacing-note">
-            <h3>20분 운영 권장</h3>
-            <p>도입 3분, 라운드당 2분 30초, 최종 정리 4분을 기준으로 설계합니다. 지연되어도 25분 안쪽에서 마무리하는 흐름입니다.</p>
+            <h3>20분 수업 흐름</h3>
+            <p>도입 2분, 역할 확인 2분, 라운드 5회 14분, 최종 발표 2분을 기준으로 진행합니다. 발표가 길어지면 25분 안쪽에서 마무리됩니다.</p>
           </article>
           <div class="control-row">
             <label>모둠 수</label>
@@ -155,7 +160,7 @@ function renderSetup() {
               ${[45, 60, 90].map((seconds) => `<button type="button" class="${state.timerSeconds === seconds ? "active" : ""}" data-timer="${seconds}">${seconds === 90 ? "1분 30초" : `${seconds}초`}</button>`).join("")}
             </div>
           </div>
-          <p class="empty-note">2~8모둠까지 설정할 수 있습니다. 20분 수업은 4~5모둠, 토의 60초를 권장합니다.</p>
+          <p class="empty-note">20분 수업은 4~5모둠, 토의 60초가 가장 안정적입니다.</p>
           <button type="button" class="primary-button" id="createGroupsBtn">역할 자동 배정</button>
         </aside>
         <div class="setup-panel">
@@ -228,7 +233,7 @@ function renderRoles() {
   app.innerHTML = `
     <section class="screen">
       <h2>역할 배정</h2>
-      <p class="lead">각 모둠은 서로 다른 경제 주체입니다. 같은 선택이라도 역할에 따라 결과가 달라질 수 있습니다.</p>
+      <p class="lead">각 모둠은 서로 다른 경제 주체입니다. 예산은 남은 돈, 안정도는 생활을 유지하는 힘, 위험도는 앞으로 흔들릴 가능성을 뜻합니다.</p>
       <div class="role-grid">${state.groups.map(roleCard).join("")}</div>
       <div class="actions">
         <button type="button" class="primary-button" id="beginRoundBtn">1라운드 시작</button>
@@ -292,9 +297,9 @@ function renderRound() {
         </div>
       </div>
       <div class="pace-strip">
-        <span>20분 페이스</span>
-        <strong>토의 ${formatTime(state.timerSeconds)} → 교사 입력 30초 → 결과 핵심 정리 30초</strong>
-        <p>발표는 라운드마다 1모둠만 짧게 받으면 전체 활동이 20분 안에 들어옵니다.</p>
+        <span>진행 순서</span>
+        <strong>상황 읽기 → 모둠 선택 → 결과 확인 → 한 문장 발표</strong>
+        <p>각 모둠은 선택 이유를 한 문장으로 준비합니다. 발표는 라운드마다 1모둠만 짧게 진행합니다.</p>
       </div>
       ${teacherGuideMarkup(round)}
       <div class="team-grid team-grid-compact">${state.groups.map((group) => teamChoiceCard(group, round)).join("")}</div>
@@ -318,7 +323,7 @@ function renderRound() {
 function teacherGuideMarkup(round) {
   return `
     <details class="teacher-guide">
-      <summary>교사용 진행 노트 / 학습지 기록 포인트</summary>
+      <summary>교사용 힌트와 학습지 연결</summary>
       <div class="guide-grid">
         <article>
           <span>진행자 노트</span>
@@ -480,8 +485,8 @@ function renderResult() {
         </details>
       </article>
       <article class="question-card wide">
-        <span>다음 토론</span>
-        <strong>${round.question}</strong>
+        <span>발표 질문</span>
+        <strong>우리 모둠의 선택은 예산, 안정도, 위험도 중 무엇을 가장 크게 바꾸었나요?</strong>
       </article>
       ${teacherGuideMarkup(round)}
       <div class="actions">
@@ -566,6 +571,7 @@ function renderFinal() {
         </tbody>
       </table>
       <article class="summary-panel"><h3>역할별 결과 차이</h3><p>${roleSummary(groups)}</p></article>
+      <article class="summary-panel"><h3>마무리 발표</h3><p>1위 모둠은 가장 효과적이었던 선택을, 위험도가 낮은 모둠은 위험을 줄인 방법을 한 문장씩 발표합니다.</p></article>
       <article class="explain-box"><h3>수업 정리</h3><p>인플레이션은 모든 사람에게 같은 영향을 주지 않습니다. 고정 소득자, 예금자, 대출자, 실물 자산 소유자처럼 각자의 경제적 상황에 따라 유리함과 불리함이 달라집니다.</p></article>
       <div class="actions final-actions">
         ${state.viewingSavedResult ? `<button type="button" class="ghost-button" id="backSavedBtn">저장 목록으로</button>` : state.currentResultSaved ? `<button type="button" class="ghost-button" disabled>저장 완료</button>` : `<button type="button" class="ghost-button" id="saveResultBtn">결과 저장</button>`}
@@ -649,7 +655,7 @@ function trendMetric(group, label, key, max, unit = "", danger = false) {
 
 function roleSummary(groups = state.groups) {
   const roles = groups.map((group) => group.role.name).join(", ");
-  return `${roles} 역할은 같은 물가 상승을 서로 다르게 경험했습니다. 고정된 소득이나 현금 중심 자산은 구매력 하락에 약했고, 대출자는 금리 상승 때 부담이 커졌습니다. 반대로 실물 자산을 가진 경우에는 임대료나 자산 가치 상승이 도움이 될 수 있었지만 관리비와 위험도 함께 커졌습니다.`;
+  return `${roles} 역할은 같은 물가 상승을 서로 다르게 경험했습니다. 고정 소득이나 현금 중심 자산은 구매력 하락에 약했고, 대출자는 금리 상승 때 부담이 커졌습니다. 반대로 실물 자산을 가진 경우에는 임대료나 자산 가치 상승이 도움이 될 수 있었지만, 관리비와 위험도 함께 커졌습니다.`;
 }
 
 function resetAll() {
